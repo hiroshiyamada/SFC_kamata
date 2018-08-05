@@ -3,9 +3,117 @@
 
 import ev3dev.ev3 as ev3
 import time
+import ev3dev.core
+import threading
 
+#qを入力したら止まる
+flag_quit = False
+def quit_input():
+    if(input() == "q"):
+        flag_quit = True
+
+#SFCの紹介をしゃべる
+def speakSFC():
+    ev3dev.core.Sound.set_volume(100)
+    ev3dev.core.Sound.speak('Welcome to our S F C Kamata project!').wait()
+    #ev3.Sound.speak('I am going to play a music song. Have Fun!').wait()
+
+#音楽を流す
+def playMusic():
+    ev3dev.core.Sound.set_volume(50)
+    ev3dev.core.Sound.tone([
+        (392, 350, 100), (392, 350, 100), (392, 350, 100), (311.1, 250, 100),
+        (466.2, 25, 100), (392, 350, 100), (311.1, 250, 100), (466.2, 25, 100),
+        (392, 700, 100), (587.32, 350, 100), (587.32, 350, 100),
+        (587.32, 350, 100), (622.26, 250, 100), (466.2, 25, 100),
+        (369.99, 350, 100), (311.1, 250, 100), (466.2, 25, 100), (392, 700, 100),
+        (784, 350, 100), (392, 250, 100), (392, 25, 100), (784, 350, 100),
+        (739.98, 250, 100), (698.46, 25, 100), (659.26, 25, 100),
+        (622.26, 25, 100), (659.26, 50, 400), (415.3, 25, 200), (554.36, 350, 100),
+        (523.25, 250, 100), (493.88, 25, 100), (466.16, 25, 100), (440, 25, 100),
+        (466.16, 50, 400), (311.13, 25, 200), (369.99, 350, 100),
+        (311.13, 250, 100), (392, 25, 100), (466.16, 350, 100), (392, 250, 100),
+        (466.16, 25, 100), (587.32, 700, 100), (784, 350, 100), (392, 250, 100),
+        (392, 25, 100), (784, 350, 100), (739.98, 250, 100), (698.46, 25, 100),
+        (659.26, 25, 100), (622.26, 25, 100), (659.26, 50, 400), (415.3, 25, 200),
+        (554.36, 350, 100), (523.25, 250, 100), (493.88, 25, 100),
+        (466.16, 25, 100), (440, 25, 100), (466.16, 50, 400), (311.13, 25, 200),
+        (392, 350, 100), (311.13, 250, 100), (466.16, 25, 100),
+        (392.00, 300, 150), (311.13, 250, 100), (466.16, 25, 100), (392, 700)
+        ]).wait()
+
+#象の音を再生する
+def playElephant():
+    #ev3dev.core.Sound.set_volume(50)
+    ev3dev.core.Sound.play('elephant.wav')
+
+"""
+#象の足を動かす
 motor_left = ev3.LargeMotor('outA')
 motor_left.run_forever(speed_sp=500)
 time.sleep(3)
 motor_left.stop(stop_action='brake')
+"""
+#自己紹介文をしゃべる
+speakSFC()
+#入力受付スレッドを開始
+thread1 = threading.Thread(target=quit_input)
+thread1.start()
+#タッチセンサの指定
+ts1 = ev3.TouchSensor('in1')
+#象の鼻を下方向に動かす
+motor_left = ev3.LargeMotor('outB')
+t0 = time.time()
+#motor_left.set_speed_sp(motor_left.count_per_rot;
+print(motor_left.count_per_rot)
+minPos = -360
+maxPos = 180
+musicPos = -500
+#motor_left.run_to_abs_pos(position_sp=90, speed_sp=500, stop_action='break')
+motor_left.run_to_abs_pos(position_sp=minPos, speed_sp=100, stop_action='brake')
+#ループをカウント
+count = 0
+while(time.time()-t0 < 30):
+    if(flag_quit):
+        break
+    pMotor = motor_left.position
+    print(pMotor)
+    if(count <= 3):
+        if( abs(pMotor - maxPos) < 5):
+            motor_left.run_to_abs_pos(position_sp=minPos, speed_sp=100, stop_action='brake')
+            print("RIGHT!!!")
+            count = count + 1
+        elif(abs(pMotor- minPos) < 5):
+            motor_left.run_to_abs_pos(position_sp= maxPos, speed_sp=100, stop_action='brake')
+            print("LEFT!!!")
+            count = count + 1
+    else:
+        if( abs(pMotor - maxPos) < 5):
+            motor_left.run_to_abs_pos(position_sp=musicPos, speed_sp=100, stop_action='brake')
+            print("RIGHT!!!")
+            count = count + 1
+        elif(abs(pMotor- musicPos) < 5):
+            motor_left.run_to_abs_pos(position_sp= maxPos, speed_sp=100, stop_action='brake')
+            print("LEFT!!!")
+            count = count + 1
+            
+    if(ts1.value() == 1):
+        #playMusic()
+        playElephant()
+        break
+motor_left.stop(stop_action='brake')
+#motor_left.run_forever(speed_sp=500)
+#time.sleep(30)
+#motor_left.stop(stop_action='brake')
 
+"""
+#タッチセンサの指定
+ts1 = ev3.TouchSensor('in1')
+t0 = time.time()
+while(1):
+    print(ts1.value())
+    if(ts1.value() == 1):
+        playMusic()
+        break
+
+"""
