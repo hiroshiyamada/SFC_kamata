@@ -61,7 +61,7 @@ whole_lower, whole_upper, whole_thresh = startPercent, endPercent, 0.70
         stop: テンプレート画像拡大縮小率の最大値(%)
         threshold: テンプレートマッチングの類似度の閾値(0〜1.0)
 出力:   img_locations: テンプレート画像とマッチングした長方形部分のRectangleクラスのインスタンス
-                       2次元リスト(テンプレート画像の種類×マッチングした場所)
+                       2リスト
 ############
 '''
 def locate_images(img, templates, start, stop, threshold):
@@ -129,7 +129,7 @@ if __name__ == "__main__":
     img_gray = img#cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img = cv2.cvtColor(img_gray,cv2.COLOR_GRAY2RGB)
     #二値化処理
-    #ret,img_gray = cv2.threshold(img_gray,127,255,cv2.THRESH_BINARY)
+    print("Filtering weak staff matches...")
     ret,img_gray = cv2.threshold(img_gray,0, 255, cv2.THRESH_OTSU)
     img_width, img_height = img_gray.shape[::-1]
     #二値化した画像を出力

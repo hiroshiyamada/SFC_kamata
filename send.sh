@@ -1,3 +1,3 @@
 #!/bin/sh
 
-scp $1 robot@49.135.4.15:/home/robot/
+scp $1 robot@${ip_ev3}:/home/robot/

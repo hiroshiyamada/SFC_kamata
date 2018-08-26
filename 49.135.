@@ -67,7 +67,7 @@ t0 = time.time()
 #motor_left.set_speed_sp(motor_left.count_per_rot;
 print(motor_left.count_per_rot)
 minPos = 30
-maxPos = 700
+maxPos = 180
 musicPos = -500
 #motor_left.run_to_abs_pos(position_sp=90, speed_sp=500, stop_action='break')
 motor_left.run_to_abs_pos(position_sp=minPos, speed_sp=100, stop_action='brake')
@@ -101,9 +101,7 @@ while(time.time()-t0 < 30):
         #playMusic()
         playElephant()
         break
-motor_left.run_to_abs_pos(position_sp= maxPos, speed_sp=100, stop_action='brake')
-if( abs(pMotor - maxPos) < 5):
-        motor_left.stop(stop_action='brake')
+motor_left.stop(stop_action='brake')
 #motor_left.run_forever(speed_sp=500)
 #time.sleep(30)
 #motor_left.stop(stop_action='brake')

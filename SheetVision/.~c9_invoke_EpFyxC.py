@@ -61,11 +61,11 @@ whole_lower, whole_upper, whole_thresh = startPercent, endPercent, 0.70
         stop: テンプレート画像拡大縮小率の最大値(%)
         threshold: テンプレートマッチングの類似度の閾値(0〜1.0)
 出力:   img_locations: テンプレート画像とマッチングした長方形部分のRectangleクラスのインスタンス
-                       2次元リスト(テンプレート画像の種類×マッチングした場所)
+                       2次元リスト(テンプレート画像の種類×座標)
 ############
 '''
 def locate_images(img, templates, start, stop, threshold):
-    #最もよくマッチングした際の、テンプレート画像の拡大縮小率(scale)と、
+    #マッチングした
     #テンプレート画像がマッチングした場所(locations)を算出
     locations, scale = fit(img, templates, start, stop, threshold)
     img_locations = []

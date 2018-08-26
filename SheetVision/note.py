@@ -26,8 +26,24 @@ note_defs = {
      16 : ("a2", 45),
      17 : ("f2", 53),
 }
-
+'''
+############
+クラス名: Note
+内容: 
+############
+'''
 class Note(object):
+'''
+############
+メソッド名: __init__
+内容: コンストラクタ
+入力: rec:          認識結果のRectangle
+      sym:          認識結果の種類
+      staff_rec:    楽譜の行を囲うRectangle
+      sharp_notes:  
+      flat_notes:   
+############
+'''
     def __init__(self, rec, sym, staff_rec, sharp_notes = [], flat_notes = []):
         self.rec = rec
         self.sym = sym

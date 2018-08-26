@@ -61,7 +61,7 @@ whole_lower, whole_upper, whole_thresh = startPercent, endPercent, 0.70
         stop: テンプレート画像拡大縮小率の最大値(%)
         threshold: テンプレートマッチングの類似度の閾値(0〜1.0)
 出力:   img_locations: テンプレート画像とマッチングした長方形部分のRectangleクラスのインスタンス
-                       2次元リスト(テンプレート画像の種類×マッチングした場所)
+                       2リスト
 ############
 '''
 def locate_images(img, templates, start, stop, threshold):
@@ -141,7 +141,7 @@ if __name__ == "__main__":
     staff_recs = locate_images(img_gray, staff_imgs, staff_lower, staff_upper, staff_thresh)
 
     #小さいバウンディングボックスの削除
-    print("Filtering weak staff matches...")
+    histo = [heights.count(i) for i in range(0, max(heights) + 1)]
     #staff_recsの内包配列を展開
     staff_recs = [j for i in staff_recs for j in i]
     #1次配列。staff_recsの2列目要素+最後に0を追加(avgの平均を下げるため)

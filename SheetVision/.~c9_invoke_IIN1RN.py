@@ -61,7 +61,7 @@ whole_lower, whole_upper, whole_thresh = startPercent, endPercent, 0.70
         stop: テンプレート画像拡大縮小率の最大値(%)
         threshold: テンプレートマッチングの類似度の閾値(0〜1.0)
 出力:   img_locations: テンプレート画像とマッチングした長方形部分のRectangleクラスのインスタンス
-                       2次元リスト(テンプレート画像の種類×マッチングした場所)
+                       2次元リスト(テンプレート画像の種類×座標)
 ############
 '''
 def locate_images(img, templates, start, stop, threshold):
@@ -99,7 +99,7 @@ def merge_recs(recs, threshold):
         while(merged):
             merged = False
             i = 0
-            #recsの残りを順番にrと比較
+    #二値化処理
             for _ in range(len(recs)):
                 #重なっている面積がどちらかのrecの面積のthreshold以上の割合ならrecsを結合
                 if r.overlap(recs[i]) > threshold or recs[i].overlap(r) > threshold:
