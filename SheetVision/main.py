@@ -43,13 +43,14 @@ whole_imgs = [cv2.imread(whole_file, 0) for whole_file in whole_files]
 
 startPercent = 50
 endPercent = 150
+low_threshhold = 0.30
 
-staff_lower, staff_upper, staff_thresh = startPercent, endPercent, 0.77
-sharp_lower, sharp_upper, sharp_thresh = startPercent, endPercent, 0.70
-flat_lower, flat_upper, flat_thresh = startPercent, endPercent, 0.77
-quarter_lower, quarter_upper, quarter_thresh = startPercent, endPercent, 0.70
-half_lower, half_upper, half_thresh = startPercent, endPercent, 0.70
-whole_lower, whole_upper, whole_thresh = startPercent, endPercent, 0.70
+staff_lower, staff_upper, staff_thresh       = startPercent, endPercent, low_threshhold
+sharp_lower, sharp_upper, sharp_thresh       = startPercent, endPercent, low_threshhold
+flat_lower, flat_upper, flat_thresh          = startPercent, endPercent, low_threshhold
+quarter_lower, quarter_upper, quarter_thresh = startPercent, endPercent, low_threshhold
+half_lower, half_upper, half_thresh          = startPercent, endPercent, low_threshhold
+whole_lower, whole_upper, whole_thresh       = startPercent, endPercent, low_threshhold
 
 '''
 ############
@@ -120,6 +121,7 @@ def open_file(path):
     #cmd = {'linux2':'eog', 'win32':'explorer', 'darwin':'open'}[sys.platform]
     #subprocess.run([cmd, path])
 
+
 if __name__ == "__main__":
     #画像ファイルの指定
     img_file = sys.argv[1:][0]
@@ -186,6 +188,7 @@ if __name__ == "__main__":
     cv2.imwrite('sharp_recs_img.png', sharp_recs_img)
     open_file('sharp_recs_img.png')
 
+
     print("Matching flat image...")
     flat_recs = locate_images(img_gray, flat_imgs, flat_lower, flat_upper, flat_thresh)
 
@@ -231,11 +234,13 @@ if __name__ == "__main__":
     open_file('whole_recs_img.png')
 
     note_groups = []
+    
     #楽譜の行ごとに
     for box in staff_boxes:
         #縦位置が行の中心から一定以内の四角を取り出しNoteにする
         staff_sharps = [Note(r, "sharp", box) 
             for r in sharp_recs if abs(r.middle[1] - box.middle[1]) < box.h*5.0/8.0]
+
         staff_flats = [Note(r, "flat", box) 
             for r in flat_recs if abs(r.middle[1] - box.middle[1]) < box.h*5.0/8.0]
         quarter_notes = [Note(r, "4,8", box, staff_sharps, staff_flats) 
