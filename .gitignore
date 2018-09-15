@@ -1,1 +1,7 @@
 #*
+*.pyc
+.spyderworkspace
+.spyderproject
+*.png
+*.mid
+.~c9_*
