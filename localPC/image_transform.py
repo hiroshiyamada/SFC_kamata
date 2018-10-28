@@ -12,22 +12,22 @@ mtx = np.array([[  1.39379573e+03,  0.00000000e+00, 5.83432701e+02],
        [  0.00000000e+00,   0.00000000e+00, 1.00000000e+00]])
 
 #歪んだ画像読み込み
-#img = cv2.imread('./image3.jpg')
+img = cv2.imread('./image4.jpg')
 
 
 cap = cv2.VideoCapture(0)
 while(True):
     #画像を1フレーム読み込む
-    ret, img = cap.read()
+    #ret, img = cap.read()
     #歪み補正
     undist = cv2.undistort(img, mtx, dist, None, mtx)
     #画像のサイズを取得
     img_size = (img.shape[1], img.shape[0])
     
     #歪んでる画像で補正したい4点を手動で入力
-    src = np.float32([[478, 120], [471, 214], [436, 212], [448, 118]])
+    src = np.float32([[586, 300], [588, 525], [519, 525], [531, 300]])
     #真上から見たらこうなるだろうという理想の4点を手動で入力
-    dst = np.float32([[471, 118], [471, 211], [442, 211], [442, 118]])
+    dst = np.float32([[586, 300], [586, 531], [524, 531], [524, 300]])
                 
     #画像を真上に変換する行列を取得
     M = cv2.getPerspectiveTransform(src, dst)
@@ -35,5 +35,6 @@ while(True):
     warped = cv2.warpPerspective(undist, M, img_size)
     cv2.imshow('image', warped)
     cv2.waitKey(1)
-#変換した画像を保存する
-#cv2.imwrite('transformed.jpg', warped)
+    #変換した画像を保存する
+    cv2.imwrite('transformed.jpg', warped)
+    break
