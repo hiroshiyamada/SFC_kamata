@@ -51,8 +51,18 @@ class Note(object):
 
         middle = rec.y + (rec.h / 2.0)
         height = (middle - staff_rec.y) / staff_rec.h
-        import pdb; pdb.set_trace()
-        note_def = note_defs[int(height/note_step + 0.5)]
+        print(middle);
+        print(height);
+        #note_defのindexを-4から17に調整する
+        ################################
+        n_index = int(height/note_step + 0.5)
+        if(n_index < -4):
+            n_index = 6
+        elif(n_index > 17):
+            n_index = 6
+        ################################
+        note_def = note_defs[n_index]
+        print(note_def);
         self.note = note_def[0]
         self.pitch = note_def[1]
         if any(n for n in sharp_notes if n.note[0] == self.note[0]):

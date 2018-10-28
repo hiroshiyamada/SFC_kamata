@@ -146,13 +146,13 @@ if __name__ == "__main__":
     print("Filtering weak staff matches...")
     #staff_recsの内包配列を展開
     staff_recs = [j for i in staff_recs for j in i]
-    #1次配列。staff_recsの2列目要素+最後に0を追加(avgの平均を下げるため)
+    #1次配列。staff_recsの2列目要素+最後に0を追加(avgの平均を下げるため?)
     heights = [r.y for r in staff_recs] + [0]
     #1次配列。heightsの値でヒストグラムを作成
     histo = [heights.count(i) for i in range(0, max(heights) + 1)]
-    #スカラー値。histoの平均を算出
+    #ヒストグラムの要素数の平均を算出。
     avg = np.mean(list(set(histo)))
-    #avgより高いy値を持つstaff_recsだけを残す
+    #要素数が多い要素を残す。
     staff_recs = [r for r in staff_recs if histo[r.y] > avg]
 
     print("Merging staff image results...")
