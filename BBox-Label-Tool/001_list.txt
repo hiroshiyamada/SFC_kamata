@@ -1,0 +1,5 @@
+/Users/10136/Desktop/BBox-Label-Tool/images/001/5.JPEG
+/Users/10136/Desktop/BBox-Label-Tool/images/001/4.JPEG
+/Users/10136/Desktop/BBox-Label-Tool/images/001/3.JPEG
+/Users/10136/Desktop/BBox-Label-Tool/images/001/2.JPEG
+/Users/10136/Desktop/BBox-Label-Tool/images/001/1.JPEG
