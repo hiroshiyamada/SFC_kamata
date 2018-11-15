@@ -1,5 +1,3 @@
-#from pydarknet import Detector, Image
-#import cv2
 import os
 from operator import itemgetter
 '''
@@ -39,45 +37,36 @@ def convertNotes(detection_results, cat_note_dic):
     return [cat_note_dic[str(cat.decode("utf-8"))] for cat, score, bounds in detection_results]
 
 # 新しく追加された音符を見つける
-def findNewNotes(detected_notes, output_notes):
-    print("TODO outputnotesの変数名を変える")
-    exit()
-    # 出力ノートから認識結果ノートの先頭と同じノートを探す
-    for i in range(len(output_notes)):
+def findNewNotes(detected_notes, past_notes):
+    # 過去ノートから認識結果ノートの先頭と同じノートを探す
+    for i in range(len(past_notes)):
         print("i",i)
-        if (detected_notes[0] == output_notes[i]):
-            # 認識結果ノートのが少なければ終了(新しいノートなし)
+        if (detected_notes[0] == past_notes[i]):
+            # 認識結果ノートのが少なければ新しいノートなし
             # example : output_notes= [do, re , mi , fa]  detected_notes = [re, mi] i =1
-            if len(output_notes) - i >= len(detected_notes):
+            if len(past_notes) - i >= len(detected_notes):
                 continue
-            # 認識結果ノートが出力ノートと同じことを確認
+            # 認識結果ノートが過去ノートと同じことを確認
             # example : output_notes = [do, re, mi, re, mi, fa]
             #           detected_notes =            [re, mi, fa, so, ra]
             #           i =1  j = 0, 1, 2, 3, 4
-            for j in range(len(output_notes) - i):
+            for j in range(len(past_notes) - i):
                 print("j",j)
-                if (detected_notes[j] != output_notes[i + j]):
+                if (detected_notes[j] != past_notes[i + j]):
                     break
             else:
-                # 残りの認識結果ノートを出力ノートに追加
-                output_notes.extend(detected_notes[j+1:])
-                return
+                # 残りの認識結果ノートを出力
+                return detected_notes[j+1:]
+    return []
 
 #yoloの入力結果から不要なものを削除しplay_soundの形式に変換する
-def detect(detection_results):
+def makeSound(detection_results):
     sortedInput = sortSheet(detection_results)
     removed_result = remove_duplicate(sortedInput)
     return convertNotes(removed_result, dic_4cat)
 
-    
 
-if __name__ == "__main__":
-    out = [3, 4, 3, 4]
-    detected = [3, 4, 5, 6]
-    print("out", out)
-    print("detected", detected)
-    updateNotes(detected, out)
-    print("out",out)
+    
 '''
     # net = Detector(bytes("cfg/densenet201.cfg", encoding="utf-8"), bytes("densenet201.weights", encoding="utf-8"), 0, bytes("cfg/imagenet1k.data",encoding="utf-8"))
 
