@@ -1,0 +1,26 @@
+
+FOWARD!!!
+<!--: spam
+Content-Type: text/html
+
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> -->
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> --> -->
+</font> </font> </font> </script> </object> </blockquote> </pre>
+</table> </table> </table> </table> </table> </font> </font> </font><pre>Traceback (most recent call last):
+  File "/var/www/html/python/move.py", line 26, in &lt;module>
+    Move(motor_right,motor_left,speed_right,speed_left)
+  File "/var/www/html/python/move.py", line 10, in Move
+    motor_right.run_forever(speed_sp=speed_right)
+  File "/usr/lib/python3/dist-packages/ev3dev/core.py", line 794, in run_forever
+    setattr(self, key, kwargs[key])
+  File "/usr/lib/python3/dist-packages/ev3dev/core.py", line 584, in speed_sp
+    self._speed_sp = self.set_attr_int(self._speed_sp, 'speed_sp', value)
+  File "/usr/lib/python3/dist-packages/ev3dev/core.py", line 218, in set_attr_int
+    return self._set_attribute(attribute, name, str(int(value)))
+  File "/usr/lib/python3/dist-packages/ev3dev/core.py", line 204, in _set_attribute
+    attribute = self._attribute_file_open( name )
+  File "/usr/lib/python3/dist-packages/ev3dev/core.py", line 187, in _attribute_file_open
+    return io.FileIO(path, mode)
+PermissionError: [Errno 13] Permission denied: '/sys/class/tacho-motor/motor1/speed_sp'
+</pre>
+

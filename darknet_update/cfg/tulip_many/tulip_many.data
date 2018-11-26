@@ -1,0 +1,5 @@
+classes = 4  
+train  = /home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/tulip_many/tulip_many_images.txt  
+valid  = /home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/tulip_many/tulip_many_images.txt  
+names  = /home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/tulip_many/tulip_many_obj.names  
+backup = /home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/tulip_many/backup

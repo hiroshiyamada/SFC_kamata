@@ -1,5 +1,0 @@
-/home/sfc_kamata/work/SFC_kamata/darknet/cfg/test_img/1.jpg
-/home/sfc_kamata/work/SFC_kamata/darknet/cfg/test_img/2.jpg
-/home/sfc_kamata/work/SFC_kamata/darknet/cfg/test_img/3.jpg
-/home/sfc_kamata/work/SFC_kamata/darknet/cfg/test_img/4.jpg
-/home/sfc_kamata/work/SFC_kamata/darknet/cfg/test_img/5.jpg

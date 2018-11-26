@@ -3,9 +3,7 @@
 import requests
 import os
 import sys
-
-response = requests.get("http://49.135.3.41/python/test.py");
-print(response.text);
+from time import sleep
 
 #画像のダウンロード
 def download_image(url, timeout = 10):
@@ -18,7 +16,7 @@ def make_filename(base_dir, number, url):
     #拡張子を取得
     ext = os.path.splitext(url)[1]
     #拡張子に番号を付ける
-    filename = number + ext
+    filename = str(number) + ext
     #ファイル名でそのまま保存
     #filename = os.path.basename(url)
     #画像の相対パスを作成
@@ -31,16 +29,23 @@ def save_image(filename, image):
         fout.write(image)
 
 #メイン実行部
-if __name__ == "__main__":
+def getImage():
     #Mindstormで画像が保存されている場所
-    url = "http://49.135.3.41/python/images/test.jpg"
-    #連番の番号(Todo:ここをループして連番にする?)
-    num = "1"
+    url = "http://49.135.3.41/python/images/"
     #画像の保存フォルダ名
     images_dir = "images"
-    #保尊する画像の相対パス
-    filename = make_filename(images_dir, num, url)
+    #連番の番号(Todo:ここをループして連番にする?)
+    num = 0
+    #取得画像のurl
+    imageurl = url + str(num) + ".jpg"
+    #保存する画像の相対パス
+    filename = make_filename(images_dir, num, imageurl)
     #画像をダウンロードaaa
-    image = download_image(url)
+    image = download_image(imageurl)
     #画像を保存
     save_image(filename, image)
+    print(num)
+    num += 1
+    sleep(1)
+
+#getImage()
