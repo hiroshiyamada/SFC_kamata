@@ -28,10 +28,11 @@ def save_image(filename, image):
     with open(filename, "wb") as fout:
         fout.write(image)
 
-#メイン実行部
+#画像ダウンロードメイン実行部
 def getImage():
     #Mindstormで画像が保存されている場所
-    url = "http://49.135.3.41/python/images/"
+    url = "http://49.135.3.100/~pi/python/images/"
+    #url = "http://49.135.3.100:8080/python/images/"
     #画像の保存フォルダ名
     images_dir = "images"
     #連番の番号(Todo:ここをループして連番にする?)
@@ -40,7 +41,7 @@ def getImage():
     imageurl = url + str(num) + ".jpg"
     #保存する画像の相対パス
     filename = make_filename(images_dir, num, imageurl)
-    #画像をダウンロードaaa
+    #画像をダウンロード
     image = download_image(imageurl)
     #画像を保存
     save_image(filename, image)
@@ -48,4 +49,24 @@ def getImage():
     num += 1
     sleep(1)
 
-#getImage()
+#画像撮影メイン実行部
+def makeImage():
+    url = "http://49.135.3.100/~pi/python/take_image.sh"
+    #画像を撮影
+    requests.get(url, allow_redirects = False, timeout = 10)
+
+#画像を削除
+def removeImage():
+    #画像の保存フォルダ名
+    images_dir = "images"
+    #連番の番号(Todo:ここをループして連番にする?)
+    num = 0
+    #取得画像のurl
+    imageurl = str(num) + ".jpg"
+    #保存する画像の相対パス
+    filename = make_filename(images_dir, num, imageurl)
+    if (os.path.exists(filename)):
+        os.remove(filename)
+
+if __name__ == "__main__":
+    removeImage()

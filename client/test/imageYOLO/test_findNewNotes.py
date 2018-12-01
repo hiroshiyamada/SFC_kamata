@@ -46,3 +46,16 @@ def test_findNewNotes6():
     out = imageYOLO.findNewNotes(detected, past)
     eq_(ref, out)
 
+
+def test_findNewNotes7():
+    past =  []
+    detected = [('D4', 'e3'),('D4', 'e3'),('D4', 'e3'),('G4', 'h.')]
+    ref  = [('D4', 'e3'),('D4', 'e3'),('D4', 'e3'),('G4', 'h.')]
+    out = imageYOLO.findNewNotes(detected, past)
+    eq_(ref, out)
+def test_findNewNotes8():
+    past = [('D4', 'e3'),('D4', 'e3'),('D4', 'e3'),('G4', 'h.')]
+    detected =  []
+    ref = []
+    out = imageYOLO.findNewNotes(detected, past)
+    eq_(ref, out)

@@ -10,7 +10,7 @@ from operator import itemgetter
 #楽譜の順番にソートする
 def sortSheet(detection_results):
     #楽譜の順番にx座標でソートする
-    detection_results = sorted(detection_results, key=lambda x: (x[2][1]), reverse=True);
+    detection_results = sorted(detection_results, key=lambda x: (x[2][1]), reverse=True)
     return detection_results
 
 # 不要な認識結果を削除する(多重認識を消す、他の列の認識結果を消す)
@@ -21,16 +21,19 @@ def remove_duplicate(detection_results):
         catstr = str(cat.decode("utf-8"))
         #x,y:認識結果の中心のx座標とy座標, w,h:バウンディングボックスの横と縦の長さ
        	x, y, w, h = bounds
-       	#多重認識を消す(信頼度が85%を超えるかつx座標が600以下)
-       	if(score > 0.85 and x < 600):
+       	#多重認識を消す(信頼度が60%を超えるかつx座標が400以上かつ800以下)
+       	if(score > 0.60 and x < 800 and x > 400):
        	    removed_result.append((cat,score,bounds))
        	    #cv2.rectangle(img, (int(x - w / 2), int(y - h / 2)), (int(x + w / 2), int(y + h / 2)), (255, 0, 0), thickness=2)
             #cv2.putText(img,str(cat.decode("utf-8")),(int(x),int(y)),cv2.FONT_HERSHEY_COMPLEX,1,(255,255,0))
     return removed_result
        	
        	
+#チューリップ画像用リスト
+#dic_4cat = {"fa":("F4", "q"), "so":("G4", "q"), "la":("A4", "q"), "do":("C5", "q")}
+#ジングルベル画像用リスト
+dic_4cat = {"u_do":("C4", ""}
 
-dic_4cat = {"fa":("F4", "q"), "so":("G4", "q"), "la":("A4", "q"), "do":("C5", "q")}
 
 # yolo認識結果の形式からplay_soundの形式に変換する
 def convertNotes(detection_results, cat_note_dic):
@@ -40,6 +43,8 @@ def convertNotes(detection_results, cat_note_dic):
 def findNewNotes(detected_notes, past_notes):
     if past_notes == []:
         return detected_notes
+    if detected_notes == []:
+        return []
     # 過去ノートから認識結果ノートの先頭と同じノートを探す
     for i in range(len(past_notes)):
         #print("i",i)

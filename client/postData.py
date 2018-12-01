@@ -18,6 +18,10 @@ def postMusic(notes):
         #temp.append(test2[i])
     #マインドストームのアドレスに送信
     s = requests.session()
-    r = s.post("http://49.135.3.41/python/receive.py", data = test)
+    r = s.post("http://49.135.3.100:8080/python/receive.py", data = test)
     #送信結果を表示
     print(r.text)
+
+if __name__ == "__main__":
+  test_notes = [('D4', 'e3'),('D4', 'e3'),('D4', 'e3'),('G4', 'h'),('D5', 'h'),('C5', 'e3')]
+  postMusic(test_notes)
