@@ -28,15 +28,20 @@ def save_image(filename, image):
     with open(filename, "wb") as fout:
         fout.write(image)
 
+#最新から一つ前の画像の番号を取得する
+def getRecentPictureNum():
+    #ラズパイの番号取得スクリプト呼び出し
+    url = "http://49.135.3.100/~pi/python/getRecentImageNum.sh"
+    r = requests.get(url, allow_redirects = False, timeout = 20)
+    recentNum = int(r.text) - 1
+    return str(recentNum).zfill(4)
 #画像ダウンロードメイン実行部
-def getImage():
-    #Mindstormで画像が保存されている場所
+def getImage(num):
+    #ラズパイで画像が保存されている場所
     url = "http://49.135.3.100/~pi/python/images/"
     #url = "http://49.135.3.100:8080/python/images/"
     #画像の保存フォルダ名
     images_dir = "images"
-    #連番の番号(Todo:ここをループして連番にする?)
-    num = 0
     #取得画像のurl
     imageurl = url + str(num) + ".jpg"
     #保存する画像の相対パス
@@ -46,14 +51,12 @@ def getImage():
     #画像を保存
     save_image(filename, image)
     print(num)
-    num += 1
-    sleep(1)
 
 #画像撮影メイン実行部
 def makeImage():
     url = "http://49.135.3.100/~pi/python/take_image.sh"
     #画像を撮影
-    requests.get(url, allow_redirects = False, timeout = 10)
+    requests.get(url, allow_redirects = False, timeout = 20)
 
 #画像を削除
 def removeImage():
@@ -68,5 +71,4 @@ def removeImage():
     if (os.path.exists(filename)):
         os.remove(filename)
 
-if __name__ == "__main__":
-    removeImage()
+#if __name__ == "__main__":

@@ -23,7 +23,6 @@ musicList = []
 
 
 def handler(signal, frame):
-    move.stop()
     sys.exit(0)
 
 
@@ -40,49 +39,38 @@ shutil.rmtree("output")
 os.mkdir("images")
 os.mkdir("output")
 #前回数字の保存
-imageNum = 0
+imageNum = 580
+#前回認識結果の保存
+pastNote=[]
 
 N = 100
 for i in range(N):
-    print("i=", i)
-    print('image makeImage %f' % (time.time()-start_time))
+    print("offline i=", i)
+    #print('image makeImage %f' % (time.time()-start_time))
     #ラズパイの画像を削除
     #image.removeImage()
-    print('image remove %f' % (time.time()-start_time))
-    if i ==0:
-        recentNum = image.getRecentPictureNum()
-        imageNum = int(recentNum)
-    while int(imageNum) > int(recentNum):
-        #ラズパイから最新の一つ前の画像番号を取得
-        recentNum = image.getRecentPictureNum()
-        print("recentNum = " + str(recentNum))
-#        if(recentNum == "0000"):
-#                continue
-    #ラズパイから画像を取得
-    image.getImage(str(imageNum).zfill(4))
-    print('image getImage %f' % (time.time()-start_time))
-    if (i == 0):
-        #動く
-        print('move')
-        move.move()
-        print('move %f' % (time.time()-start_time))
-#        pass # test
-    if (i == N-1):
-        #止まる
-        print('stop')
-        move.stop()
-        print('stop %f' % (time.time()-start_time))
-#        pass # test
+    #print('image remove %f' % (time.time()-start_time))
+#    if i ==0:
+#        recentNum = image.getRecentPictureNum()
+#        imageNum = int(recentNum)
+#    while int(imageNum) > int(recentNum):
+#        #ラズパイから最新の一つ前の画像番号を取得
+#        recentNum = image.getRecentPictureNum()
+#        print("recentNum = " + str(recentNum))
+#    #ラズパイから画像を取得
+#    image.getImage(str(imageNum).zfill(4))
+#    print('image getImage %f' % (time.time()-start_time))
     # グレイスケールで読み込む
     print('image read')
-    img = cv2.imread("images/" + str(imageNum).zfill(4) + ".jpg",0)
+    print('offline imageNum', str(imageNum).zfill(4))
+    img = cv2.imread("raspi_images/" + str(imageNum).zfill(4) + ".jpg",0)
     #img = cv2.imread(
     #    "/home/sfc_kamata/work/BBox-Label-Tool/Images/original/" + str(i+1) + ".jpg", 0)
-    print('image read %f' % (time.time() - start_time))
+    print('image read %f imageNum %d' % (time.time() - start_time, imageNum))
     # 歪み補正と直線補正
     if img is None:
-        print('image is None! Continue!')
-        continue
+        print('image is None!')
+        break
     else:
         img_tr = image_transform.image_transform(img)
     print('transform %f' % (time.time()-start_time))
@@ -114,17 +102,23 @@ for i in range(N):
 #        move.stop()
 #        break
     # 新規楽譜の抽出
-    newNote = imageYOLO.findNewNotes(currentNote, musicList)
+    newNote = imageYOLO.findNewNotes(currentNote, pastNote)
+    pastNote = currentNote
     print('newNote %f' % (time.time()-start_time))
+    print('offline cur',currentNote)
+    print('offline new',newNote)
     # 新規楽譜を結合
     musicList.extend(newNote)
     #楽譜をev3に送信する
-    if newNote != []:
-        #postData.postMusic(newNote)
-        pass
-    postData.postMusic(currentNote)
+    #if newNote != []:
+    #    #postData.postMusic(newNote)
+    #    pass
+    postData.postMusic(newNote)
     print('music list extend %f' % (time.time()-start_time))
     print("musicList", musicList)
-    time.sleep(1.1)
-    imageNum += 18
+#    time.sleep(1.1)
+#    imageNum += 18
+    imageNum += 2 
+
+print('offline music',musicList)
 #print('music list send %f' % (time.time()-start_time))

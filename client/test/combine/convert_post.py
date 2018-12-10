@@ -1,0 +1,13 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+from ... import postData
+from ... import imageYOLO
+
+detectionResults = \
+[(b'dog', 0.9993329048156738, (224.17959594726562, 378.47900390625, 178.75448608398438, 328.29620361328125)),
+(b'bicycle', 0.991621732711792, (344.5289306640625, 286.759765625, 486.18890380859375, 321.3658447265625)), 
+(b'truck', 0.9165929555892944, (580.9117431640625, 125.05439758300781, 208.13427734375, 87.27819061279297))]
+
+
+musicList = imageYOLO.makeSound(detectionResults)
+postData.postMusic(musicList)

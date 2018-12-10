@@ -2,20 +2,25 @@ from pydarknet import Detector, Image
 import cv2
 import os
 
+def yoloNetwork():
+    net = Detector(bytes("/home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/jingle/test.cfg", encoding="utf-8"), bytes("/home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/jingle/backup/yolo-obj_class4_20000.weights", encoding="utf-8"), 0, bytes("/home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/jingle/jingle.data",encoding="utf-8"))
+    return net
+
+def yoloDetect_net(img, net):
+    img2 = Image(img)
+    results = net.detect(img2)
+    return results
+
 def yoloDetect(img):
     # net = Detector(bytes("cfg/densenet201.cfg", encoding="utf-8"), bytes("densenet201.weights", encoding="utf-8"), 0, bytes("cfg/imagenet1k.data",encoding="utf-8"))
-
-    net = Detector(bytes("/home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/tulip_many/test.cfg", encoding="utf-8"), bytes("/home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/tulip_many/backup/yolo-obj_class4.backup", encoding="utf-8"), 0, bytes("/home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/tulip_many/tulip_many.data",encoding="utf-8"))
-
+    net = Detector(bytes("/home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/jingle/test.cfg", encoding="utf-8"), bytes("/home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/jingle/backup/yolo-obj_class4_20000.weights", encoding="utf-8"), 0, bytes("/home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/jingle/jingle.data",encoding="utf-8"))
     #img = cv2.imread(os.path.join(os.environ["DARKNET_HOME"],"data/dog.jpg"))
-    #img = cv2.imread("/home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/tulip_many/img/1.jpg")
+    #img = cv2.imread("/home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/jingle/img/1.jpg")
     img2 = Image(img)
-
     # r = net.classify(img2)
     results = net.detect(img2)
     #writeBoundingBox(results)
     return results
-
 
 def writeBoundingBox(results, img, num):
     print(results)
@@ -27,7 +32,7 @@ def writeBoundingBox(results, img, num):
         cv2.rectangle(img, (int(x - w / 2), int(y - h / 2)), (int(x + w / 2), int(y + h / 2)), (255, 0, 0), thickness=2)
         cv2.putText(img,str(cat.decode("utf-8")),(int(x),int(y)),cv2.FONT_HERSHEY_COMPLEX,1,(255,255,0))
     #cv2.imshow("output", img)
-    cv2.imwrite("output"+str(num)+".jpg", img)
+    cv2.imwrite("output/output"+str(num).zfill(4)+".jpg", img)
     # img2 = pydarknet.load_image(img)
     #cv2.waitKey(0)
 

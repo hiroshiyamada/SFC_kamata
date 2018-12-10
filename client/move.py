@@ -11,14 +11,14 @@ def request_get(url, timeout = 10):
 #メイン実行部
 def move():
     #Mindstormで移動プログラムが保存されている場所
-    url = "http://49.135.3.100:8080/python/start_move.py"
+    url = "http://49.135.3.100:8080/python/start_move_sh.py"
     
     ret = request_get(url, 10000)
     print(ret)
 
 def stop():
     #Mindstormで移動プログラムが保存されている場所
-    url = "http://49.135.3.100:8080/python/stop_move.py"
+    url = "http://49.135.3.100:8080/python/stop_move_sh.py"
     
     ret = request_get(url, 10000)
     print(ret)

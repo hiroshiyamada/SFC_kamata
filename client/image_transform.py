@@ -22,10 +22,10 @@ def image_transform(img):
     img_size = (img.shape[1], img.shape[0])
     
     #歪んでる画像で補正したい4点を手動で入力
-    src = np.float32([[586, 300], [588, 525], [519, 525], [531, 300]])
-    src = src/1.5
+    src = np.float32([[317, 382], [300, 542], [260, 542], [283, 382]])
+    #src = src/1.5
     #真上から見たらこうなるだろうという理想の4点を手動で入力
-    dst = np.float32([[590, 300], [590, 531], [527, 531], [527, 300]])
+    dst = np.float32([[312, 379], [312, 542], [280, 542], [280, 379]])
                 
     #画像を真上に変換する行列を取得
     M = cv2.getPerspectiveTransform(src, dst)
@@ -84,3 +84,49 @@ while(img_count < 15):
     img_count += 1;
     #break
 '''
+
+##アイボーリングのテスト用
+def image_transform_test():
+    #歪んだ画像読み込み
+    img = cv2.imread('../../BBox-Label-Tool/Images/original/1.jpg')
+    #cv2.imshow("b",img)
+    #歪み補正
+    undist = cv2.undistort(img, mtx, dist, None, mtx)
+    #画像のサイズを取得
+    img_size = (img.shape[1], img.shape[0])
+    
+    #歪んでる画像で補正したい4点を手動で入力
+    src = np.float32([[317, 382], [300, 542], [260, 542], [283, 382]])
+    #src = src/1.5
+    cv2.circle(img,(317, 382), 3, (0,0,255), -1)
+    cv2.circle(img,(300, 542), 3, (0,0,255), -1)
+    cv2.circle(img,(260, 542), 3, (0,0,255), -1)
+    cv2.circle(img,(283, 382), 3, (0,0,255), -1)
+
+    cv2.circle(img,(312, 379), 3, (0,255,0), -1)
+    cv2.circle(img,(312, 542), 3, (0,255,0), -1)
+    cv2.circle(img,(280, 542), 3, (0,255,0), -1)
+    cv2.circle(img,(280, 379), 3, (0,255,0), -1)
+
+    cv2.imwrite('images/1.jpg',img)
+    #真上から見たらこうなるだろうという理想の4点を手動で入力
+    dst = np.float32([[312, 379], [312, 542], [280, 542], [280, 379]])
+    #dst = dst/1.5
+
+    #画像を真上に変換する行列を取得
+    M = cv2.getPerspectiveTransform(src, dst)
+    #真上から見た画像に変換する
+    warped = cv2.warpPerspective(undist, M, img_size)
+    cv2.circle(warped,(312, 379), 3, (0,255,0), -1)
+    cv2.circle(warped,(312, 542), 3, (0,255,0), -1)
+    cv2.circle(warped,(280, 542), 3, (0,255,0), -1)
+    cv2.circle(warped,(280, 379), 3, (0,255,0), -1)
+
+    #変換した画像を保存する
+    cv2.imwrite('images/transformed/1.jpg', warped)
+
+    return warped
+
+
+if __name__ == "__main__":
+    image_transform_test()
