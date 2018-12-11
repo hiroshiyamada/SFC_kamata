@@ -47,10 +47,37 @@ def convertNotes(detection_results, cat_note_dic):
 
 # 新しく追加された音符を見つける
 def findNewNotes(detected_notes, past_notes):
-    if past_notes == []:
+    if len(past_notes) == []:
         return detected_notes
-    if detected_notes == []:
-        return []
+    ## 検出された音符の最初と最後は誤認識が多いので使わない
+    ## 検出された音符が少なすぎる場合は無視
+    #if len(detected_notes) < 3:
+    #    return []
+    #detected_notes = detected_notes[1:-1]
+    #if len(past_notes) < 3:
+    #    return []
+    #past_notes = past_notes[1:-1]
+    best_i = 0
+    best_eq_count = 0
+    for i in  range(-3,len(past_notes)):
+        eq_count = 0
+        for j in range(len(detected_notes)):
+            if i + j >= len(past_notes):
+                break
+            if i+ j < 0:
+                continue
+            if past_notes[i+j] == detected_notes[j]:
+                eq_count += 1
+        if eq_count >= best_eq_count:
+            best_i = i
+            best_eq_count = eq_count
+    # 結果出力
+    new_notes_begin = len(past_notes)-best_i -1
+    print(new_notes_begin)
+    if new_notes_begin >= len(detected_notes):
+       return []
+    return detected_notes[new_notes_begin+1:]
+###### 古いコード
     # 過去ノートから認識結果ノートの先頭と同じノートを探す
     for i in range(len(past_notes)):
         #print("i",i)
@@ -79,7 +106,13 @@ def makeSound(detection_results):
     print("removedResults", removed_result)
     return convertNotes(removed_result, dic_10jingle)
 
-
+if __name__ == "__main__":
+    past =   [1,2,3]
+    detected = [2,3,4,5]
+    new = findNewNotes(detected, past)
+    print("past ",past)
+    print("detected ",detected)
+    print("new ",new)
     
 '''
     # net = Detector(bytes("cfg/densenet201.cfg", encoding="utf-8"), bytes("densenet201.weights", encoding="utf-8"), 0, bytes("cfg/imagenet1k.data",encoding="utf-8"))

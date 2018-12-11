@@ -3,6 +3,7 @@ import time
 import image_transform
 import imageYOLO
 import postData
+import postMoveData
 import move
 import image
 import os
@@ -23,6 +24,7 @@ musicList = []
 
 
 def handler(signal, frame):
+    move.stop()
     sys.exit(0)
 
 
@@ -50,20 +52,32 @@ for i in range(N):
     #ラズパイの画像を削除
     #image.removeImage()
     #print('image remove %f' % (time.time()-start_time))
-#    if i ==0:
-#        recentNum = image.getRecentPictureNum()
-#        imageNum = int(recentNum)
-#    while int(imageNum) > int(recentNum):
-#        #ラズパイから最新の一つ前の画像番号を取得
-#        recentNum = image.getRecentPictureNum()
-#        print("recentNum = " + str(recentNum))
-#    #ラズパイから画像を取得
-#    image.getImage(str(imageNum).zfill(4))
-#    print('image getImage %f' % (time.time()-start_time))
+    if i ==0:
+        recentNum = image.getRecentPictureNum()
+        imageNum = int(recentNum)
+    while int(imageNum) > int(recentNum):
+        #ラズパイから最新の一つ前の画像番号を取得
+        recentNum = image.getRecentPictureNum()
+        print("recentNum = " + str(recentNum))
+    #ラズパイから画像を取得
+    image.getImage(str(imageNum).zfill(4))
+    print('image getImage %f' % (time.time()-start_time))
+    if (i == 0):
+        #動く
+        print('move')
+        #move.move()
+        print('move %f' % (time.time()-start_time))
+#        pass # test
+    if (i == N-1):
+        #止まる
+        print('stop')
+        move.stop()
+        print('stop %f' % (time.time()-start_time))
+#        pass # test
     # グレイスケールで読み込む
     print('image read')
     print('offline imageNum', str(imageNum).zfill(4))
-    img = cv2.imread("raspi_images/" + str(imageNum).zfill(4) + ".jpg",0)
+    img = cv2.imread("images/" + str(imageNum).zfill(4) + ".jpg",0)
     #img = cv2.imread(
     #    "/home/sfc_kamata/work/BBox-Label-Tool/Images/original/" + str(i+1) + ".jpg", 0)
     print('image read %f imageNum %d' % (time.time() - start_time, imageNum))
@@ -89,6 +103,7 @@ for i in range(N):
     print('detection %f' % (time.time()-start_time))
     #detectionResults = detectMusic.yoloDetect(img_two)
     print("detectionResults", detectionResults)
+    postMoveData.post(detectionResults)
     # 認識結果を楽譜形式に変換
     currentNote = imageYOLO.makeSound(detectionResults)
     print('currentNote %f' % (time.time()-start_time))
@@ -118,7 +133,7 @@ for i in range(N):
     print("musicList", musicList)
 #    time.sleep(1.1)
 #    imageNum += 18
-    imageNum += 2 
+    imageNum += 8 
 
 print('offline music',musicList)
 #print('music list send %f' % (time.time()-start_time))
