@@ -70,44 +70,32 @@ for i in range(N):
 #    if (i == 0):
 #        #動く
 #        print('move')
-#        #move.move()
+#        move.move()
 #        print('TIME move %f' % (time.time()-start_time))
-#        pass # test
+##        pass # test
 #    if (i == N-1):
 #        #止まる
 #        print('stop')
 #        move.stop()
 #        print('TIME stop %f' % (time.time()-start_time))
-#        pass # test
+##        pass # test
     # グレイスケールで読み込む
     print('image read')
     print('offline imageNum', str(imageNum).zfill(4))
-    img = cv2.imread("images/" + str(imageNum).zfill(4) + ".jpg",0)
+    img = cv2.imread("images/" + str(imageNum).zfill(4) + ".jpg")
+    #img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
     #img = cv2.imread(
     #    "/home/sfc_kamata/work/BBox-Label-Tool/Images/original/" + str(i+1) + ".jpg", 0)
-    print('TIME image read %f imageNum %d' % (time.time() - start_time, imageNum))
-    # 歪み補正と直線補正
-    if img is None:
-        print('image is None!')
-        break
-    else:
-        img_tr = image_transform.image_transform(img)
-    print('TIME transform %f' % (time.time()-start_time))
-    # 適応的2値化
-    img_two = cv2.adaptiveThreshold(
-        img_tr, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
-    img_two = cv2.cvtColor(img_two, cv2.COLOR_GRAY2RGB)
-    print('TIME cvt color %f' % (time.time()-start_time))
-    # 切り出し
-    img_two = img_two[300:600, 200:600]
+    #print('TIME image read %f imageNum %d' % (time.time() - start_time, imageNum))
     # ２倍に拡大
-    img_two = cv2.resize(img_two, None, fx = 2, fy = 2)
+    img_two = cv2.resize(img, None, fx = 2, fy = 2)
     # 認識
     detectionResults = detectMusic.yoloDetect_net(img_two, net)
     print('TIME detection %f' % (time.time()-start_time))
     #detectionResults = detectMusic.yoloDetect(img_two)
     print("detectionResults", detectionResults)
     postMoveData.post(detectionResults)
+    print('TIME postMoveData %f' % (time.time()-start_time))
     # 認識結果を楽譜形式に変換
     currentNote = imageYOLO.makeSound(detectionResults)
     print('TIME currentNote %f' % (time.time()-start_time))
@@ -132,12 +120,14 @@ for i in range(N):
     #if newNote != []:
     #    #postData.postMusic(newNote)
     #    pass
-    postData.postMusic(newNote)
     print('TIME music list extend %f' % (time.time()-start_time))
+    if newNote != []:
+        postData.postMusic(newNote)
+    print('TIME postMusic%f' % (time.time()-start_time))
     print("musicList", musicList)
     # time.sleep(1.1)
     # imageNum += 18
-    imageNum += 8 
+    imageNum += 4
 
 print('offline music',musicList)
 #print('TIME music list send %f' % (time.time()-start_time))

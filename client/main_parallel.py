@@ -24,7 +24,7 @@ musicList = []
 
 
 def handler(signal, frame):
-    move.stop()
+#    move.stop()
     sys.exit(0)
 
 
@@ -107,7 +107,7 @@ for i in range(N):
     print('TIME detection %f' % (time.time()-start_time))
     #detectionResults = detectMusic.yoloDetect(img_two)
     print("detectionResults", detectionResults)
-    postMoveData.post(detectionResults)
+#    postMoveData.post(detectionResults)
     # 認識結果を楽譜形式に変換
     currentNote = imageYOLO.makeSound(detectionResults)
     print('TIME currentNote %f' % (time.time()-start_time))
@@ -132,7 +132,7 @@ for i in range(N):
     #if newNote != []:
     #    #postData.postMusic(newNote)
     #    pass
-    postData.postMusic(newNote)
+#    postData.postMusic(newNote)
     print('TIME music list extend %f' % (time.time()-start_time))
     print("musicList", musicList)
     # time.sleep(1.1)

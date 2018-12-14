@@ -10,7 +10,8 @@ from statistics import mean
 (b'truck', 0.9165929555892944, (580.9117431640625, 125.05439758300781, 208.13427734375, 87.27819061279297))]
 '''
 def calcMotorSpeed(results):
-    v0 = 40
+#    v0 = 40
+    v0 = 80
     xTarget = 400
     kp = 0.025
     xList = []

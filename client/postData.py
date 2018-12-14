@@ -26,8 +26,8 @@ note_dict={
 def convertNotes2(notes):
     test = ""
     for n in notes:
-#        test += " -l 250 -f "
-        test += " -l 800 -f "
+        test += " -l 500 -f "
+#        test += " -l 800 -f "
         print(note_dict.get(n[0], '16000'))
         test += note_dict.get(n[0], '16000')
     print(test)
