@@ -116,13 +116,12 @@ for i in range(N):
     print('offline new',newNote)
     # 新規楽譜を結合
     musicList.extend(newNote)
-    #楽譜をev3に送信する
-    #if newNote != []:
-    #    #postData.postMusic(newNote)
-    #    pass
     print('TIME music list extend %f' % (time.time()-start_time))
+    #楽譜をev3に送信する
     if newNote != []:
         postData.postMusic(newNote)
+        #postData.postMusic_Christmas(newNote)
+    #    pass  
     print('TIME postMusic%f' % (time.time()-start_time))
     print("musicList", musicList)
     # time.sleep(1.1)

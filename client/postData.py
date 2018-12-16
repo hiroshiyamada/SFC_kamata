@@ -23,6 +23,19 @@ note_dict={
         'Z'  : '17000'
 }
 
+note_christmas={
+        'C4' : '261', #.63
+        'D4' : '293', #.66
+        'E4' : '329', #.63
+        'F4' : '369', #.23,本当は'F#4/Gb4'
+        'G4' : '392', #.30
+        'A4' : '440', #.00
+        'A#4/Bb4': '494', #本当はB4
+        'C5' : '523', #.25
+        'D5' : '587', #.33
+        'Z'  : '17000'
+}
+
 def convertNotes2(notes):
     test = ""
     for n in notes:
@@ -61,6 +74,25 @@ def postMusic(notes):
     #マインドストームのアドレスに送信
     s = requests.session()
 #    r = s.post("http://49.135.3.100:8080/python/receive.py", data = test)
+    r = s.post("http://49.135.3.100:8080/python/test.py", data = test)
+    #送信結果を表示
+    print(r.text)
+
+
+def convertNotes_Christmas(notes):
+    test = ""
+    for n in notes:
+        test += " -l 500 -f "
+        print(note_christmas.get(n[0], '16000'))
+        test += note_christmas.get(n[0], '16000')
+    print(test)
+    return test
+
+
+def postMusic_Christmas(notes):
+    test = convertNotes_Christmas(notes)
+    #マインドストームのアドレスに送信
+    s = requests.session()
     r = s.post("http://49.135.3.100:8080/python/test.py", data = test)
     #送信結果を表示
     print(r.text)
