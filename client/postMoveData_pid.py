@@ -16,8 +16,8 @@ class MoveDataPost:
         self.pastXDiff = 0
         self.sumXDiff = 0
     def calcMotorSpeed(self, results):
-        ###v0 = 87
-        v0 = 80
+        v0 = 87
+        #v0 = 80
         xTarget = 400
         kp = 0.015
         ki = 0
