@@ -39,8 +39,8 @@ note_christmas={
 def convertNotes2(notes):
     test = ""
     for n in notes:
-        test += " -l 500 -f "
-#        test += " -l 800 -f "
+        test += " -l 350 -f "
+        #test += " -l 500 -f "
         print(note_dict.get(n[0], '16000'))
         test += note_dict.get(n[0], '16000')
     print(test)
@@ -53,7 +53,33 @@ def convertNotes2(notes):
 #        #temp.append(test2[i])
 #    return test
     
+def postMusic(notes, r, l):
+    #入力データ
+#    test = {}
+    #temp = []
+    #test2 = [('D4', 'e3'),('D4', 'e3'),('D4', 'e3'),('G4', 'h'),('D5', 'h'),('C5', 'e3'),
+    #('B4', 'e3'),('A4', 'e3'),('G5', 'h'),('D5', 'q'),('C5', 'e3'),('B4', 'e3'),
+    #('A4', 'e3'),('G5', 'h'),('D5', 'q'),('C5', 'e3'),('B4', 'e3'),('C5', 'e3'),
+    #('A4', 'h.')]
+    #test2 = [('D4', 'e3'),('D4', 'e3'),('D4', 'e3'),('G4', 'h'),('D5', 'h'),('C5', 'e3')]
 
+#    test["key0"] = len(notes)
+#    for i in range(len(notes)):
+#        key = "key" + str(i+1)
+#        test[key] = notes[i]
+#        #temp.append(test2[i])
+    beepNotes = convertNotes2(notes)
+#    test = "-l 200 -f 349 -l 200 -f 392"
+    motorSpeed =  str(r) + " " +str(l)
+    sendData = motorSpeed + " " + beepNotes 
+    #マインドストームのアドレスに送信
+    s = requests.session()
+#    r = s.post("http://49.135.3.100:8080/python/receive.py", data = test)
+    r = s.post("http://49.135.3.100:8080/python/move_and_sound_sh.py", data = sendData)
+    #送信結果を表示
+    print(r.text)
+
+'''
 def postMusic(notes):
     #入力データ
 #    test = {}
@@ -77,7 +103,7 @@ def postMusic(notes):
     r = s.post("http://49.135.3.100:8080/python/test.py", data = test)
     #送信結果を表示
     print(r.text)
-
+'''
 
 def convertNotes_Christmas(notes):
     test = ""

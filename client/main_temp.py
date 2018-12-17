@@ -3,7 +3,7 @@ import time
 import image_transform
 import imageYOLO
 import postData
-import postMoveData
+import postMoveData_pid
 import move
 import image
 import os
@@ -21,7 +21,7 @@ start_time = time.time()
 print('TIME start time %f' % (time.time()-start_time))
 # 楽譜を時系列で格納する配列
 musicList = []
-
+pid = postMoveData_pid.MoveDataPost()
 
 def handler(signal, frame):
     move.stop()
@@ -45,7 +45,7 @@ imageNum = 580
 #前回認識結果の保存
 pastNote=[]
 
-N = 100
+N = 5000
 for i in range(N):
     print('TIME i= %d %f' % (i,time.time()-start_time))
     #print('TIME image makeImage %f' % (time.time()-start_time))
@@ -94,8 +94,6 @@ for i in range(N):
     print('TIME detection %f' % (time.time()-start_time))
     #detectionResults = detectMusic.yoloDetect(img_two)
     print("detectionResults", detectionResults)
-    postMoveData.post(detectionResults)
-    print('TIME postMoveData %f' % (time.time()-start_time))
     # 認識結果を楽譜形式に変換
     currentNote = imageYOLO.makeSound(detectionResults)
     print('TIME currentNote %f' % (time.time()-start_time))
@@ -117,16 +115,17 @@ for i in range(N):
     # 新規楽譜を結合
     musicList.extend(newNote)
     print('TIME music list extend %f' % (time.time()-start_time))
+    #モーターの左右値を取得
+    r, l = pid.post(detectionResults)
     #楽譜をev3に送信する
-    if newNote != []:
-        postData.postMusic(newNote)
-        #postData.postMusic_Christmas(newNote)
-    #    pass  
+    postData.postMusic(newNote, r, l)
+    print('TIME postMoveData %f' % (time.time()-start_time))
+
     print('TIME postMusic%f' % (time.time()-start_time))
     print("musicList", musicList)
     # time.sleep(1.1)
-    # imageNum += 18
     imageNum += 4
+    ###imageNum += 3
 
 print('offline music',musicList)
 #print('TIME music list send %f' % (time.time()-start_time))
