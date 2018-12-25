@@ -1,0 +1,17 @@
+l=200
+echo -l $l -f 261
+echo -l $l -f 261
+echo -l $l -f 440
+echo -l $l -f 392
+echo -l $l -f 349
+echo -l $l -f 261
+echo -l $l -f 17000
+echo -l $l -f 17000
+echo -l $l -f 261
+echo -l $l -f 261
+echo -l $l -f 440
+echo -l $l -f 392
+echo -l $l -f 349
+echo -l $l -f 293
+echo -l $l -f 17000
+echo -l $l -f 17000
