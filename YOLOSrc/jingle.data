@@ -1,0 +1,5 @@
+classes = 10
+train  = /home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/jingle/jingle_images.txt  
+valid  = /home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/jingle/jingle_images.txt  
+names  = /home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/jingle/jingle_obj.names  
+backup = /home/sfc_kamata/work/SFC_kamata/darknet_update/cfg/jingle/backup
